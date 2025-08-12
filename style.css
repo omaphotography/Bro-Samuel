@@ -1,0 +1,210 @@
+/* style.css */
+
+/* Reset + Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #0a0a0a;
+  color: white;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+.container {
+  text-align: center;
+  padding: 3rem 1rem;
+  z-index: 10;
+  position: relative;
+}
+
+/* Headings */
+.title {
+  font-size: 2.5rem;
+  color: #ffcc00;
+  margin-bottom: 0.5rem;
+}
+
+.name {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #00d0ff;
+  margin: 0.5rem 0;
+}
+
+.position {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 2rem;
+}
+
+/* Poem Section */
+.poem p {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s ease;
+  font-size: 1.2rem;
+  margin: 0.8rem 0;
+}
+
+.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+/* Image Section */
+.image-section {
+  margin-top: 3rem;
+  transition: all 1s ease-in-out;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Fireworks Emoji Style */
+#fireworks {
+  font-size: 3rem;
+  margin-top: 2rem;
+  animation: flash 1s infinite alternate;
+}
+
+@keyframes flash {
+  0% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+/* Stars Background */
+.stars {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('stars.png') repeat;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+/* Clouds Background */
+.clouds {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 100%;
+  background: url('clouds.png') repeat-x;
+  animation: moveClouds 80s linear infinite;
+  z-index: 2;
+  opacity: 0.2;
+}
+
+@keyframes moveClouds {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Balloons Background */
+.balloons {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('balloons.png') repeat;
+  animation: floatBalloons 25s linear infinite;
+  z-index: 3;
+  opacity: 0.25;
+}
+
+@keyframes floatBalloons {
+  0% { background-position: 0 100%; }
+  100% { background-position: 0 -100%; }
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .title { font-size: 1.8rem; }
+  .name { font-size: 2.2rem; }
+  .poem p { font-size: 1rem; }
+}
+/* Image Slider */
+.image-slider {
+  overflow: hidden;
+  white-space: nowrap;
+  box-sizing: border-box;
+  margin-top: 2rem;
+}
+
+.slide-track {
+  display: flex;
+  animation: scrollImages 40s linear infinite;
+}
+
+.slide-track img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin: 0 10px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+  transition: transform 0.3s;
+}
+
+.slide-track img:hover {
+  transform: scale(1.1);
+}
+
+@keyframes scrollImages {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.start-btn {
+  background: #ff4081;
+  color: white;
+  font-size: 1.2rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 15px rgba(255, 64, 129, 0.5);
+  transition: 0.3s;
+}
+
+.start-btn:hover {
+  background: #ff1e70;
+  transform: scale(1.05);
+}
+/* Glowing poem text */
+.poem p {
+  font-size: 1.5rem;
+  text-shadow:
+    0 0 5px #ff00ff,
+    0 0 10px #ff00ff,
+    0 0 20px #ff00ff,
+    0 0 30px #ff00ff;
+  animation: glowPulse 2s infinite alternate;
+}
+
+@keyframes glowPulse {
+  from {
+    text-shadow:
+      0 0 5px #ff00ff,
+      0 0 10px #ff00ff,
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff;
+  }
+  to {
+    text-shadow:
+      0 0 10px #00ffff,
+      0 0 20px #00ffff,
+      0 0 40px #00ffff,
+      0 0 60px #00ffff;
+  }
+}

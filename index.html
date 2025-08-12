@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday Abiola David Toluwanimi</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    /* ==== Stars ==== */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent url('stars.png') repeat;
+      animation: twinkle 5s infinite alternate;
+      z-index: -3;
+    }
+    @keyframes twinkle {
+      from { opacity: 1; }
+      to { opacity: 0.5; }
+    }
+
+    /* ==== Balloons ==== */
+    .balloons {
+      position: fixed;
+      bottom: -200px;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: -2;
+    }
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      width: 60px;
+      height: 80px;
+      background: red;
+      border-radius: 50%;
+      animation: floatUp 10s linear infinite;
+    }
+    .balloon::after {
+      content: "";
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      width: 2px;
+      height: 50px;
+      background: white;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-120vh) scale(1.1); opacity: 0; }
+    }
+
+    /* ==== Fireworks Canvas ==== */
+    #fireworksCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    /* ==== Poem & Slider ==== */
+    .hidden { display: none; }
+    .fade-in { opacity: 0; animation: fadeIn 1s forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    .image-slider {
+      overflow: hidden;
+      white-space: nowrap;
+      margin-top: 20px;
+    }
+    .slide-track {
+      display: flex;
+      animation: scroll 30s linear infinite;
+    }
+    .slide-track img {
+      height: 200px;
+      margin: 0 10px;
+      border-radius: 15px;
+    }
+    @keyframes scroll {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Background layers -->
+  <div class="stars"></div>
+  <div class="balloons">
+    <div class="balloon" style="left: 10%; background: red; animation-delay: 0s;"></div>
+    <div class="balloon" style="left: 30%; background: blue; animation-delay: 3s;"></div>
+    <div class="balloon" style="left: 50%; background: green; animation-delay: 6s;"></div>
+    <div class="balloon" style="left: 70%; background: yellow; animation-delay: 1s;"></div>
+    <div class="balloon" style="left: 90%; background: purple; animation-delay: 4s;"></div>
+  </div>
+  <canvas id="fireworksCanvas"></canvas>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h1 class="title">A Birthday Greetings to</h1>
+    <h2 class="name">OGUNSUSI SAMUEL OLUWATOBILOBA</h2>
+    <p class="position">My Brother</p>
+    <div id="poem" class="poem"></div>
+
+    <div id="imageSection" class="image-section hidden">
+      <h2>Happy Birthday to You!</h2>
+      <p>🎉🎈 Wishing you joy, success, and endless creativity! 🎈🎉</p>
+      <div class="image-slider">
+        <div class="slide-track">
+          <img src="IMG-20250812-WA0004.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0006.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0004.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0006.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0004.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0006.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0004.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0006.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0004.jpg" alt="Abiola">
+          <img src="IMG-20250812-WA0006.jpg" alt="Abiola">
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="birthdaySong" autoplay loop muted playsinline>
+    <source src="happy-birthday.mp3" type="audio/mpeg" />
+  </audio>
+
+  <script>
+    const poemLines = [
+      "In every storm, you’ve been my guide,",
+    "A steady light where dreams reside.",
+    "You cheer me on when doubts arise,",
+    "And lift my spirit to the skies.",
+    "Your words have built my courage strong,",
+    "And shaped the path where I belong.",
+    "Dear brother, your faith’s my endless flame,",
+    "Forever proud to bless your name."
+    ];
+
+    const poemContainer = document.getElementById('poem');
+    const audio = document.getElementById('birthdaySong');
+    let index = 0;
+
+    function fadeInMusic() {
+      audio.play().then(() => {
+        let vol = 0;
+        const fade = setInterval(() => {
+          if (vol < 1) {
+            vol += 0.05;
+            audio.volume = vol;
+          } else {
+            clearInterval(fade);
+          }
+        }, 200);
+        audio.muted = false;
+      }).catch(err => {
+        document.body.addEventListener("click", () => {
+          audio.muted = false;
+          audio.play();
+        }, { once: true });
+      });
+    }
+
+    function showNextLine() {
+      if (index < poemLines.length) {
+        const line = document.createElement('p');
+        line.textContent = poemLines[index];
+        line.classList.add('fade-in');
+        poemContainer.appendChild(line);
+        index++;
+        setTimeout(showNextLine, 2000);
+      } else {
+        document.getElementById('imageSection').classList.remove('hidden');
+        startFireworks();
+      }
+      function showNextLine() {
+  if (index < poemLines.length) {
+    const line = document.createElement('p');
+    line.textContent = poemLines[index];
+    line.classList.add('fade-in');
+    poemContainer.appendChild(line);
+    index++;
+    setTimeout(showNextLine, 2000);
+  } else {
+    document.getElementById('imageSection').classList.remove('hidden');
+    startFireworks();
+  }
+}
+
+    }
+
+    function startFireworks() {
+      const canvas = document.getElementById("fireworksCanvas");
+      const ctx = canvas.getContext("2d");
+      let particles = [];
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      class Particle {
+        constructor(x, y, color, velX, velY) {
+          this.x = x; this.y = y;
+          this.color = color;
+          this.velX = velX; this.velY = velY;
+          this.alpha = 1;
+        }
+        update() {
+          this.x += this.velX;
+          this.y += this.velY;
+          this.velY += 0.02;
+          this.alpha -= 0.01;
+        }
+        draw() {
+          ctx.globalAlpha = this.alpha;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+          ctx.fillStyle = this.color;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+      }
+
+      function createFirework() {
+        const colors = ["#ff0040","#ff8000","#ffff00","#00ff00","#00ffff","#0080ff","#ff00ff"];
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height / 2;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        for (let i = 0; i < 50; i++) {
+          const angle = (Math.PI * 2 * i) / 50;
+          const speed = Math.random() * 3 + 2;
+          particles.push(new Particle(x, y, color, Math.cos(angle) * speed, Math.sin(angle) * speed));
+        }
+      }
+
+      function animate() {
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        particles.forEach((p, i) => {
+          p.update(); p.draw();
+          if (p.alpha <= 0) particles.splice(i, 1);
+        });
+        requestAnimationFrame(animate);
+      }
+
+      setInterval(createFirework, 800);
+      animate();
+    }
+
+    window.addEventListener('load', () => {
+      fadeInMusic();
+      showNextLine();
+    });
+  </script>
+</body>
+</html>
